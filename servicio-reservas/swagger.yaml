@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: API de Reservas
+  description: API para gestionar reservas en un sistema de restaurante
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /reservations:
+    get:
+      summary: Obtener todas las reservas
+      responses:
+        '200':
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Obteniendo reservas'
+    post:
+      summary: Crear una nueva reserva
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerName:
+                  type: string
+                reservationTime:
+                  type: string
+              example:
+                customerName: 'Juan Pérez'
+                reservationTime: '2025-02-16T18:00:00Z'
+      responses:
+        '201':
+          description: Reserva creada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Reserva creada'
