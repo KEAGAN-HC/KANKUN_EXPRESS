@@ -12,7 +12,6 @@ app.use(express.json())
 
 swaggerDocs(app)
 
-// Cambia esta línea para incluir el prefijo '/api'
 app.use("/api/habitaciones", habitacionRoutes)
 
 app.use(errorHandler)

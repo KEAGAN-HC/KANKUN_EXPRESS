@@ -81,7 +81,7 @@ router.get("/", getAllHabitaciones)
  *       404:
  *         description: Habitación no encontrada
  */
-router.get("/:id", getHabitacionById)
+router.get("/:habitacion_id", getHabitacionById)
 
 /**
  * @swagger
@@ -130,7 +130,7 @@ router.post("/", createHabitacion)
  *             schema:
  *               $ref: '#/components/schemas/Habitacion'
  */
-router.put("/:id", updateHabitacion)
+router.put("/habitacion_id", updateHabitacion)
 
 /**
  * @swagger
@@ -148,7 +148,7 @@ router.put("/:id", updateHabitacion)
  *       200:
  *         description: Habitación eliminada correctamente
  */
-router.delete("/:id", deleteHabitacion)
+router.delete("/:habitacion_id", deleteHabitacion)
 
 export default router
 
