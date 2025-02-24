@@ -130,7 +130,7 @@ router.post("/", createHabitacion)
  *             schema:
  *               $ref: '#/components/schemas/Habitacion'
  */
-router.put("/habitacion_id", updateHabitacion)
+router.put("/:habitacion_id", updateHabitacion)
 
 /**
  * @swagger
