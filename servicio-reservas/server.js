@@ -1,26 +1,23 @@
-import express from 'express';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-import dotenv from 'dotenv';
-dotenv.config();
+import express from "express";
+import cors from "cors";
+import reservationRoutes from "./routes/reservationRoutes.js";
+import { swaggerUi, swaggerSpec } from "./config/swaggerConfig.js";
+import reservationErrorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-const swaggerDocument = YAML.load('./swagger.yaml');
-
+app.use(cors());
 app.use(express.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/reservas", reservationRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hola Mundo!');
-});
+// ✅ Cargar Swagger en `/api-docs`
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.get('/reservations', (req, res) => {
-  res.json({ message: 'Obteniendo reservas' });
-});
+app.use(reservationErrorHandler);
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+const PORT = process.env.PORT || 4003;
+app.listen(PORT, () => {
+  console.log(`✅ Servidor en http://localhost:${PORT}`);
+  console.log(`📄 Documentación en http://localhost:${PORT}/api-docs`);
 });

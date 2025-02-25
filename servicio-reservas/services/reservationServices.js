@@ -1,4 +1,4 @@
-import Reservation from '../models/Reservation.js';
+import Reservation from '../models/reservationModel.js';
 
 class ReservationService {
   static async createReservation(reservationData) {
