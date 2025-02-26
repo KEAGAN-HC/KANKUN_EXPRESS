@@ -13,20 +13,17 @@ export async function obtenerHabitacionById(id) {
 }
 
 export async function agregarHabitacion(habitacion) {
-  const { data, error } = await supabase.from("habitaciones").insert([habitacion])
+  const { error } = await supabase.from("habitaciones").insert([habitacion])
   if (error) throw error
-  return data
 }
 
 export async function actualizarHabitacion(id, habitacion) {
-  const { data, error } = await supabase.from("habitaciones").update(habitacion).eq("habitacion_id", id)
+  const { error } = await supabase.from("habitaciones").update(habitacion).eq("habitacion_id", id)
   if (error) throw error
-  return data
 }
 
 export async function eliminarHabitacion(id) {
-  const { data, error } = await supabase.from("habitaciones").delete().eq("habitacion_id", id)
+  const { error } = await supabase.from("habitaciones").delete().eq("habitacion_id", id)
   if (error) throw error
-  return data
 }
 

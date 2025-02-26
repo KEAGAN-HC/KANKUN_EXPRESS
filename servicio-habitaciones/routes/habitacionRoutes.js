@@ -1,13 +1,13 @@
-import express from "express"
+import express from "express";
 import {
   getAllHabitaciones,
   getHabitacionById,
   createHabitacion,
   updateHabitacion,
   deleteHabitacion,
-} from "../controllers/habitacionController.js"
+} from "../controllers/habitacionController.js";
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -18,12 +18,13 @@ const router = express.Router()
  *       required:
  *         - num_habi
  *         - tipo
+ *         - capacidad
  *         - precio
  *         - estado
  *       properties:
  *         habitacion_id:
  *           type: integer
- *           description: ID auto-generado de la habitación
+ *           description: ID único de la habitación
  *         num_habi:
  *           type: integer
  *           description: Número de la habitación
@@ -32,14 +33,21 @@ const router = express.Router()
  *           description: Tipo de habitación
  *         capacidad:
  *           type: integer
- *           description: Capacidad de la habitación
+ *           description: Número de personas que pueden alojarse
  *         precio:
  *           type: number
- *           description: Precio de la habitación
+ *           format: float
+ *           description: Precio de la habitación por noche
  *         estado:
  *           type: string
  *           enum: [Disponible, Ocupado, Mantenimiento]
  *           description: Estado de la habitación
+ *       example:
+ *         num_habi: 101
+ *         tipo: "Doble"
+ *         capacidad_camas: 2
+ *         precio: 1500.50
+ *         estado: "Disponible"
  */
 
 /**
@@ -47,47 +55,54 @@ const router = express.Router()
  * /api/habitaciones:
  *   get:
  *     summary: Obtener todas las habitaciones
+ *     tags: [Habitaciones]
  *     responses:
  *       200:
- *         description: Lista de habitaciones obtenida correctamente
+ *         description: Lista de habitaciones obtenida correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Habitacion'
+ *       500:
+ *         description: Error interno del servidor.
  */
-router.get("/", getAllHabitaciones)
+router.get("/", getAllHabitaciones);
 
 /**
  * @swagger
- * /api/habitaciones/{id}:
+ * /api/habitaciones/{habitacion_id}:
  *   get:
  *     summary: Obtener una habitación por ID
+ *     tags: [Habitaciones]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: habitacion_id
  *         required: true
- *         description: ID de la habitación
  *         schema:
  *           type: integer
+ *         description: ID de la habitación a buscar
  *     responses:
  *       200:
- *         description: Habitación encontrada
+ *         description: Habitación encontrada.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Habitacion'
  *       404:
- *         description: Habitación no encontrada
+ *         description: Habitación no encontrada.
+ *       500:
+ *         description: Error al buscar la habitación.
  */
-router.get("/:habitacion_id", getHabitacionById)
+router.get("/:habitacion_id", getHabitacionById);
 
 /**
  * @swagger
  * /api/habitaciones:
  *   post:
  *     summary: Crear una nueva habitación
+ *     tags: [Habitaciones]
  *     requestBody:
  *       required: true
  *       content:
@@ -96,26 +111,31 @@ router.get("/:habitacion_id", getHabitacionById)
  *             $ref: '#/components/schemas/Habitacion'
  *     responses:
  *       201:
- *         description: Habitación creada correctamente
+ *         description: Habitación creada correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Habitacion'
+ *       400:
+ *         description: Datos inválidos en la petición.
+ *       500:
+ *         description: Error interno al crear la habitación.
  */
-router.post("/", createHabitacion)
+router.post("/", createHabitacion);
 
 /**
  * @swagger
- * /api/habitaciones/{id}:
+ * /api/habitaciones/{habitacion_id}:
  *   put:
  *     summary: Actualizar una habitación
+ *     tags: [Habitaciones]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: habitacion_id
  *         required: true
- *         description: ID de la habitación
  *         schema:
  *           type: integer
+ *         description: ID de la habitación a actualizar
  *     requestBody:
  *       required: true
  *       content:
@@ -124,31 +144,41 @@ router.post("/", createHabitacion)
  *             $ref: '#/components/schemas/Habitacion'
  *     responses:
  *       200:
- *         description: Habitación actualizada correctamente
+ *         description: Habitación actualizada correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Habitacion'
+ *       400:
+ *         description: Datos inválidos en la petición.
+ *       404:
+ *         description: Habitación no encontrada.
+ *       500:
+ *         description: Error interno al actualizar la habitación.
  */
-router.put("/:habitacion_id", updateHabitacion)
+router.put("/:habitacion_id", updateHabitacion);
 
 /**
  * @swagger
- * /api/habitaciones/{id}:
+ * /api/habitaciones/{habitacion_id}:
  *   delete:
  *     summary: Eliminar una habitación
+ *     tags: [Habitaciones]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: habitacion_id
  *         required: true
- *         description: ID de la habitación
  *         schema:
  *           type: integer
+ *         description: ID de la habitación a eliminar
  *     responses:
  *       200:
- *         description: Habitación eliminada correctamente
+ *         description: Habitación eliminada correctamente.
+ *       404:
+ *         description: Habitación no encontrada.
+ *       500:
+ *         description: Error interno al eliminar la habitación.
  */
-router.delete("/:habitacion_id", deleteHabitacion)
+router.delete("/:habitacion_id", deleteHabitacion);
 
-export default router
-
+export default router;
